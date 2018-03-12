@@ -13,6 +13,9 @@ import android.support.v4.provider.DocumentFile;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.AdapterView;
@@ -24,10 +27,10 @@ import java.io.IOException;
 
 
 public class MainActivity extends AppCompatActivity {
-
     Uri dirUri =null;
     SharedPreferences sp;
     final MediaPlayer mp=new MediaPlayer();
+    Menu mMenu;
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -44,10 +47,34 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void btFolder(View view) {
-        Intent get = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-        startActivityForResult(get, 0);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        mMenu = menu;
+        return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.pp:
+                if (mp.isPlaying())
+                    { mp.pause();
+                    item.setIcon(R.drawable.play);}
+                else {
+                    mp.start();
+                    item.setIcon(R.drawable.pause); }
+                return true;
+
+            case R.id.dir:
+                Intent get = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+                startActivityForResult(get, 0);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent selected) {
         if (selected != null) {
             dirUri = selected.getData();
@@ -60,13 +87,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btPlay(View view)
-        { FloatingActionButton btplay = findViewById(R.id.play);
-        if (mp.isPlaying())
-            { mp.pause();
-                btplay.setImageResource(R.drawable.play);}
-        else {
-            mp.start();
-            btplay.setImageResource(R.drawable.pause); } }
+        {  }
 
     // fill list
     void makeList(){
@@ -85,16 +106,16 @@ public class MainActivity extends AppCompatActivity {
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             public void onItemClick(AdapterView parent,View v,final int position,long id){
-
+                mMenu.getItem(0).setIcon(R.drawable.pause);
                 new Thread(new Runnable() {
                     public void run() {
                         mp.reset();
                         try{mp.setDataSource(
                                 MainActivity.this,FileList[position].getUri());}
                         catch(IOException e){e.printStackTrace();}
-                        try{
-                            mp.prepare();
-                        }catch(IOException e){ e.printStackTrace(); }
+
+                        try{ mp.prepare(); }
+                        catch (IOException e) { e.printStackTrace();}
                         mp.start();
                     }
                 }).start();

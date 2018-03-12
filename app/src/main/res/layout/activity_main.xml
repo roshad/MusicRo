@@ -16,65 +16,13 @@
         android:elevation="4dp"   android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/play"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:clickable="true"
-        app:backgroundTint="@android:color/black"
-        app:fabSize="mini"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:rippleColor="@android:color/background_light"
-        app:srcCompat="@drawable/pause"
-        android:onClick="btPlay"/>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/folder"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="16dp"
-
-        android:layout_marginEnd="24dp"
-        android:clickable="true"
-        android:tint="@android:color/background_light"
-        app:backgroundTint="@android:color/background_dark"
-        app:fabSize="mini"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/play"
-        app:rippleColor="@android:color/background_light"
-        app:srcCompat="@drawable/folder"
-        android:onClick="btFolder"/>
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/repeat"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginStart="24dp"
-        android:clickable="true"
-
-        android:tint="@android:color/background_light"
-        app:backgroundTint="@android:color/background_dark"
-        app:fabSize="mini"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/play"
-        app:rippleColor="@android:color/background_light"
-        app:srcCompat="@drawable/repeat_one"
-         />
-
     <ListView
         android:id="@+id/lv"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="80dp"
-        android:layout_marginTop="64dp"
 
-        app:layout_constraintBottom_toBottomOf="@+id/play"
+        android:layout_marginTop="64dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
