@@ -13,6 +13,7 @@ import android.support.v4.provider.DocumentFile;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,8 +30,9 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
     Uri dirUri =null;
     SharedPreferences sp;
-    final MediaPlayer mp=new MediaPlayer();
+    MediaPlayer mp=new MediaPlayer();
     Menu mMenu;
+
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -43,10 +45,11 @@ public class MainActivity extends AppCompatActivity {
         String savedDir = sp.getString("dir",null);
         if (savedDir!= null) {
             dirUri = Uri.parse(savedDir);
+
             makeList();
         }
     }
-
+    //menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -86,9 +89,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void btPlay(View view)
-        {  }
-
     // fill list
     void makeList(){
         final DocumentFile[] FileList;
@@ -111,16 +111,20 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         mp.reset();
                         try{mp.setDataSource(
-                                MainActivity.this,FileList[position].getUri());}
+                                MainActivity.this,FileList[position].getUri());
+                            mp.prepare();}
                         catch(IOException e){e.printStackTrace();}
 
-                        try{ mp.prepare(); }
-                        catch (IOException e) { e.printStackTrace();}
                         mp.start();
                     }
                 }).start();
     }
     });}
+
+    @Override protected void onDestroy(){
+        super.onDestroy();
+        mp.release();
+    }
 }
 
 
